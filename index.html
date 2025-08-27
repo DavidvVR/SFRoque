@@ -1778,6 +1778,27 @@ document.getElementById('modLTR').onclick = () => {
   });
 
   // --- Puedes agregar aquí otros módulos del dashboard si tienes más botones
+const DB = {
+    get(key, fallback=[]) {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+    },
+    set(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+  };
+
+  // Ejemplos:
+  // Guardar una unidad:
+  function addUnidadLTR(nueva) {
+    const arr = DB.get('sr_ltr_unidades', []);
+    arr.push(nueva);
+    DB.set('sr_ltr_unidades', arr);
+  }
+
+  // Leer unidades:
+  function getUnidadesLTR() {
+    return DB.get('sr_ltr_unidades', []);
+  }
 });
 
  </script>   
