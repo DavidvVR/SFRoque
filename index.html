@@ -1714,7 +1714,7 @@ btn.primary { background:#efe9ff; border-color:#033552; }
     <div class="form-group">
       <label for="ns-operador">Operador</label>
       <select id="ns-operador" disabled>
-      <option value="">Selecciona…</option>
+      <option value="">Seleccione Operador..</option>
       </select>
       <div class="field-error" data-for="ns-operador"></div>
      </div>
@@ -4890,54 +4890,42 @@ cargarClientes();
 })();
 
 //Label operador Info Unidad 
-(function(){
-        const selUnidad   = document.getElementById('ns-unidadTipo');
-        const selPerm     = document.getElementById('ns-permisionario');
-        const selPlaca    = document.getElementById('ns-placa');
-        const selEco      = document.getElementById('ns-eco');
-        const selOperador = document.getElementById('ns-operador');
-      
-        function resetSelect(sel, msg="Selecciona…") {
-          if (!sel) return;
-          sel.innerHTML = `<option value="">${msg}</option>`;
-          sel.disabled = true;
-        }
-      
-      // Encadenado: Eco → Operador
-        selEco?.addEventListener('change', () => {
-          resetSelect(selOperador);
-      
-          if (!selEco.value) return;
-      
-          let ops = [];
-      
-          if (selUnidad.value === 'LTR') {
-            const ecoSel = selEco.value;
-            const units = getUnits();
-            const u = units.find(x => x.eco === ecoSel);
-            if (u) {
-              ops = getOps().filter(o => o.asignadoEco === ecoSel || !o.asignadoEco);
-            }
-          }
-      
-          if (selUnidad.value === 'Permisionario') {
-            const permId = selPerm.value;
-            const ecoSel = selEco.value;
-            const perm = getPerms().find(p => p.id === permId);
-            if (perm) {
-              ops = (perm.operadores || []).filter(o => o.eco === ecoSel || !o.eco);
-            }
-          }
-      
-          if (ops.length) {
-            selOperador.innerHTML = [
-              `<option value="">Selecciona…</option>`,
-              ...ops.map(o => `<option value="${o.nombre}">${o.nombre}</option>`)
-            ].join('');
-            selOperador.disabled = false;
-          }
-        });
-})();
+
+function renderOperadores() {
+  const operadorSel = document.getElementById('ns-operador');
+  operadorSel.innerHTML = '<option value="">Seleccione operador...</option>';
+
+  const unidadTipo = document.getElementById('ns-unidadTipo')?.value;
+  if (!unidadTipo) return;
+
+  if (unidadTipo === 'LTR') {
+    // operadores internos
+    const ops = JSON.parse(localStorage.getItem('sr_ltr_operadores') || '[]');
+    ops.forEach(op => {
+      const opt = document.createElement('option');
+      opt.value = op.id;
+      opt.textContent = op.nombre;
+      operadorSel.appendChild(opt);
+    });
+  } else if (unidadTipo === 'Permisionario') {
+    // aquí debes filtrar por el permisionario seleccionado
+    const permSel = document.getElementById('ns-permisionario')?.value;
+    const perms = JSON.parse(localStorage.getItem('sr_permisionarios') || '[]');
+    const perm = perms.find(p => p.id === permSel);
+    (perm?.operadores || []).forEach(op => {
+      const opt = document.createElement('option');
+      opt.value = op.id;
+      opt.textContent = op.nombre;
+      operadorSel.appendChild(opt);
+    });
+  }
+
+  operadorSel.disabled = operadorSel.options.length <= 1;
+}
+document.getElementById('ns-unidadTipo')?.addEventListener('change', renderOperadores);
+document.getElementById('ns-permisionario')?.addEventListener('change', renderOperadores);
+document.getElementById('ns-eco')?.addEventListener('change', renderOperadores);
+document.getElementById('ns-placa')?.addEventListener('change', renderOperadores);      
       
 //Hasta aqui sin modificar ek script      
 })();    
