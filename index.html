@@ -1718,6 +1718,11 @@ btn.primary { background:#efe9ff; border-color:#033552; }
       </select>
       <div class="field-error" data-for="ns-operador"></div>
      </div>
+
+    <div class="form-group">
+      <label for="ns-remolque">Remolque</label>
+      <input id="ns-remolque" type="text" placeholder="Número o descripción del remolque">
+    </div>
           
   </div>       
 </div>
@@ -4926,6 +4931,22 @@ document.getElementById('ns-unidadTipo')?.addEventListener('change', renderOpera
 document.getElementById('ns-permisionario')?.addEventListener('change', renderOperadores);
 document.getElementById('ns-eco')?.addEventListener('change', renderOperadores);
 document.getElementById('ns-placa')?.addEventListener('change', renderOperadores);      
+
+//label Remolque
+  const inpRemolque = document.getElementById('ns-remolque');
+
+const servicio = {
+  id: genServicioId(servicios),
+  createdAt: new Date().toISOString(),
+  estado: 'Activo',
+  cliente: draft.cliente || { id: selCliente.value, nombre: selCliente.options[selCliente.selectedIndex]?.text || '' },
+  tipoUnidad: draft.tipoUnidad || selTipo.value || null,
+  trayecto: tray,
+  precio: precioNumber,
+  precioFmt: (precioNumber || 0).toLocaleString('es-MX', { style:'currency', currency:'MXN' }),
+  citaCarga: (inpCita?.value || null),
+  remolque: (inpRemolque?.value || '').trim()   // 👈 NUEVO CAMPO
+};
       
 //Hasta aqui sin modificar ek script      
 })();    
