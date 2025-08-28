@@ -1725,10 +1725,16 @@ btn.primary { background:#efe9ff; border-color:#033552; }
     </div>
           
   </div> 
-<div class="form-group">
-  <label for="ns-ligaGps">Liga GPS</label>
-  <input id="ns-ligaGps" type="text" placeholder="www.gps.com/unidad">
-</div>
+
+  <div class="form-group">
+      <label for="ns-ligaGps">Liga GPS</label>
+      <input id="ns-ligaGps" type="text" placeholder="www.gps.com/unidad">
+  </div>
+        
+  <div class="form-group">
+      <label for="ns-observaciones">Observaciones</label>
+      <textarea id="ns-observaciones" rows="2" placeholder="Notas u observaciones del servicio" style="resize:vertical;"></textarea>
+  </div>
         
 </div>
   <button class="btn primary" id="asignGuardarServicio">Guardar servicio</button>    
@@ -4937,7 +4943,7 @@ document.getElementById('ns-permisionario')?.addEventListener('change', renderOp
 document.getElementById('ns-eco')?.addEventListener('change', renderOperadores);
 document.getElementById('ns-placa')?.addEventListener('change', renderOperadores);      
 
-//label Remolque
+//label Remolque, liga GPS Observaciones
   const inpRemolque = document.getElementById('ns-remolque');
 
 const servicio = {
@@ -4952,6 +4958,11 @@ const servicio = {
   citaCarga: (inpCita?.value || null),
   remolque: (inpRemolque?.value || '').trim()  
   ligaGps: (inpLigaGps?.value || '').trim(), // Guarda el dato de la liga del gps 
+  observaciones: (inpObservaciones?.value || '').trim() // Guarda el dato de Observaciones
+      
+//Observacines 
+const inpObservaciones = document.getElementById('ns-observaciones');
+if (inpObservaciones) inpObservaciones.value = '';     
 };
       
 //Hasta aqui sin modificar ek script      
