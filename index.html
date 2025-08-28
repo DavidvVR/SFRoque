@@ -4950,7 +4950,8 @@ const servicio = {
   precio: precioNumber,
   precioFmt: (precioNumber || 0).toLocaleString('es-MX', { style:'currency', currency:'MXN' }),
   citaCarga: (inpCita?.value || null),
-  remolque: (inpRemolque?.value || '').trim()   // 👈 NUEVO CAMPO
+  remolque: (inpRemolque?.value || '').trim()  
+  ligaGps: (inpLigaGps?.value || '').trim(), // Guarda el dato de la liga del gps 
 };
       
 //Hasta aqui sin modificar ek script      
